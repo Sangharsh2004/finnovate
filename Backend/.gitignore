@@ -3,12 +3,19 @@ venv/
 ml_service/venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# ===== Environment =====
+.env
+Backend/.env
 
 # ===== Node =====
 node_modules/
 
-# ===== Env files =====
-.env
+# ===== Database =====
+*.sqlite
+*.db
 
 # ===== OS =====
 .DS_Store
