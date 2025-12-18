@@ -1,10 +1,5 @@
-const BASE = window.location.hostname === "localhost"
-  ? "http://localhost:3000"
-  : "https://datapulse-backend.onrender.com";
-
-const ML = window.location.hostname === "localhost"
-  ? "http://localhost:5000"
-  : "https://datapulse-backend.onrender.com";
+const BASE = "https://datapulse-backend-5898.onrender.com";
+const ML = "https://datapulse-backend-5898.onrender.com";
 
 let eventSource = null;
 
