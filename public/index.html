@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="DataPulse: Your AI-Powered Personal Financial Advisor for tracking expenses, income, and budgets." />
+  <title>DataPulse — AI Personal Financial Advisor</title>
+
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <header class="app-header">
+      <h1 class="app-title"><i class="fas fa-chart-line"></i> DataPulse</h1>
+      <p class="app-tagline">AI-Based Personal Financial Advisor</p>
+    </header>
+
+    <main>
+      <!-- ===================== AUTH SECTION ===================== -->
+      <section id="auth-section">
+        <!-- LOGIN FORM -->
+        <div class="card form-container" id="login-container">
+          <h2 class="form-title">Login</h2>
+          <form id="login-form" autocomplete="on" novalidate>
+            <div class="input-group">
+              <i class="fas fa-envelope icon"></i>
+              <input type="email" id="login-email" placeholder="Email" required autocomplete="email" />
+            </div>
+            <div class="input-group">
+              <i class="fas fa-lock icon"></i>
+              <input type="password" id="login-password" placeholder="Password" required autocomplete="current-password" />
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <p class="toggle-link">
+              Don’t have an account?
+              <button type="button" id="show-signup" class="link-button">Sign up</button>
+            </p>
+
+            <!-- ===== NEW FEATURE START: Forgot Password Link ===== -->
+            <p class="toggle-link">
+              <button type="button" id="show-forgot" class="link-button">Forgot Password?</button>
+            </p>
+            <!-- ===== NEW FEATURE END ===== -->
+          </form>
+        </div>
+
+        <!-- SIGNUP FORM -->
+        <div class="card form-container hidden" id="signup-container">
+          <h2 class="form-title">Sign Up</h2>
+          <form id="signup-form" autocomplete="on" novalidate>
+            <div class="input-group">
+              <i class="fas fa-user icon"></i>
+              <input type="text" id="signup-name" placeholder="Full Name" required autocomplete="name" />
+            </div>
+            <div class="input-group">
+              <i class="fas fa-envelope icon"></i>
+              <input type="email" id="signup-email" placeholder="Email" required autocomplete="email" />
+            </div>
+            <div class="input-group">
+              <i class="fas fa-lock icon"></i>
+              <input type="password" id="signup-password" placeholder="Password (min 6 chars)" minlength="6" required autocomplete="new-password" />
+            </div>
+            <button type="submit" class="btn btn-primary">Create Account</button>
+            <p class="toggle-link">
+              Already have an account?
+              <button type="button" id="show-login" class="link-button">Login</button>
+            </p>
+          </form>
+        </div>
+
+        <!-- OTP VERIFY FORM -->
+        <div class="card form-container hidden" id="otp-container">
+          <h2 class="form-title">Verify OTP</h2>
+          <form id="otp-form" novalidate>
+            <div class="input-group">
+              <i class="fas fa-key icon"></i>
+              <input type="text" id="otp-code" placeholder="Enter 6-digit OTP" maxlength="6" required inputmode="numeric" />
+            </div>
+            <button type="submit" class="btn btn-primary">Verify OTP</button>
+            <p class="toggle-link">
+              Didn’t receive?
+              <button type="button" id="resend-otp" class="link-button">Resend OTP</button>
+            </p>
+          </form>
+        </div>
+
+        <!-- ===== NEW FEATURE START: Forgot + Reset Password Forms ===== -->
+        <!-- FORGOT PASSWORD FORM -->
+        <div class="card form-container hidden" id="forgot-container">
+          <h2 class="form-title">Forgot Password</h2>
+          <form id="forgot-form" novalidate>
+            <div class="input-group">
+              <i class="fas fa-envelope icon"></i>
+              <input type="email" id="forgot-email" placeholder="Enter your registered email" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Send OTP</button>
+            <p class="toggle-link">
+              <button type="button" id="back-to-login" class="link-button">Back to Login</button>
+            </p>
+          </form>
+        </div>
+
+        <!-- RESET PASSWORD FORM -->
+        <div class="card form-container hidden" id="reset-container">
+          <h2 class="form-title">Reset Password</h2>
+          <form id="reset-form" novalidate>
+            <div class="input-group">
+              <i class="fas fa-envelope icon"></i>
+              <input type="email" id="reset-email" placeholder="Email" required />
+            </div>
+            <div class="input-group">
+              <i class="fas fa-key icon"></i>
+              <input type="text" id="reset-otp" placeholder="Enter OTP" maxlength="6" required inputmode="numeric" />
+            </div>
+            <div class="input-group">
+              <i class="fas fa-lock icon"></i>
+              <input type="password" id="reset-password" placeholder="New Password" minlength="6" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Reset Password</button>
+            <p class="toggle-link">
+              <button type="button" id="back-to-login2" class="link-button">Back to Login</button>
+            </p>
+          </form>
+        </div>
+        <!-- ===== NEW FEATURE END ===== -->
+      </section>
+
+      <!-- ===================== DASHBOARD ===================== -->
+      <section id="dashboard-section" class="hidden">
+        <header class="dashboard-header nav-bar-extended">
+          <h2 class="dashboard-title">Welcome, <span id="dashboard-username">User</span></h2>
+
+          <nav class="dashboard-nav-links">
+            <button id="nav-dashboard" class="btn btn-primary-alt"><i class="fas fa-home"></i> Dashboard</button>
+            <button id="nav-expenses" class="btn btn-secondary"><i class="fas fa-minus-circle"></i> Expenses</button>
+            <button id="nav-income" class="btn btn-secondary"><i class="fas fa-plus-circle"></i> Income</button>
+            <button id="nav-charts" class="btn btn-secondary"><i class="fas fa-chart-area"></i> Charts</button>
+            <button id="nav-settings" class="btn btn-secondary"><i class="fas fa-cog"></i> Settings</button>
+            <button id="refresh-btn" class="btn btn-secondary" title="Refresh"><i class="fas fa-sync"></i></button>
+            <button id="voice-btn" class="btn btn-secondary" title="Voice Assistant"><i class="fas fa-microphone"></i>
+</button>
+<!-- ✅ Profile Dropdown -->
+<div class="profile-dropdown-wrapper">
+  <button id="profile-btn" class="btn profile-btn" title="Profile">
+    <img id="profile-icon" src="default-avatar.png" alt="Profile">
+  </button>
+  <div id="profile-menu" class="hidden profile-menu">
+    <div class="profile-menu-header">
+      <img id="menu-photo" src="default-avatar.png" alt="Profile Photo">
+      <div>
+        <h4 id="menu-name">User</h4>
+        <p id="menu-email">user@example.com</p>
+      </div>
+    </div>
+    <hr>
+    <button id="my-profile-btn"><i class="fas fa-id-card"></i> My Profile</button>
+    <button id="change-photo-btn"><i class="fas fa-image"></i> Change Profile</button>
+    <button id="logout-menu-btn" class="danger"><i class="fas fa-sign-out-alt"></i> Logout</button>
+  </div>
+</div>
+
+
+
+        <div id="views-container">
+          <!-- Dashboard View -->
+          <div id="dashboard-view" class="content-view">
+            <div class="dashboard-grid">
+              <div class="card summary-card">
+                <h3><i class="fas fa-dollar-sign"></i> Financial Overview</h3>
+                <div class="summary-metrics">
+                  <div class="metric income-metric">
+                    <h4>Total Income</h4>
+                    <p id="total-income">₹0.00</p>
+                  </div>
+                  <div class="metric expenses-metric">
+                    <h4>Total Expenses</h4>
+                    <p id="total-expense">₹0.00</p>
+                  </div>
+                  <div class="metric savings-metric">
+                    <h4>Net Savings</h4>
+                    <p id="net-savings">₹0.00</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Transaction Entry -->
+              <div class="card transaction-card">
+                <h3><i class="fas fa-exchange-alt"></i> Record Transaction</h3>
+                <form id="add-transaction-form" autocomplete="off" novalidate>
+                  <div class="input-group">
+                    <i class="fas fa-file-invoice-dollar icon"></i>
+                    <input type="text" id="transaction-description" placeholder="Description (e.g., Grocery)" required />
+                  </div>
+                  <div class="input-group">
+                    <i class="fas fa-tag icon"></i>
+                    <input type="text" id="transaction-category" placeholder="Category (optional)" />
+                  </div>
+                  <div class="input-group">
+                    <i class="fas fa-coins icon"></i>
+                    <input type="number" id="transaction-amount" placeholder="Amount" step="0.01" min="0" required />
+                  </div>
+                  <div class="input-group">
+                    <i class="fas fa-list-ul icon"></i>
+                    <select id="transaction-type" required>
+                      <option value="income">Income</option>
+                      <option value="expense">Expense</option>
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Add Transaction</button>
+                  <small id="ml-suggestion" class="ml-suggestion-text"></small>
+                </form>
+              </div>
+
+              <!-- AI Recommendation -->
+              <div class="card recommendation-card">
+                <h3><i class="fas fa-robot"></i> AI Recommendations</h3>
+                <p id="ai-recommendation">No recommendations yet.</p>
+              </div>
+
+              <!-- Recent Transactions -->
+              <div class="card recent-transactions-card">
+                <h3><i class="fas fa-history"></i> Recent Transactions</h3>
+                <ul id="transaction-list">
+                  <li class="text-center loading-placeholder">Loading...</li>
+                </ul>
+                <div class="transaction-actions">
+                  <button id="export-csv" class="btn btn-secondary"><i class="fas fa-download"></i> Export CSV</button>
+                  <!-- ===== NEW FEATURE START: Email CSV Summary Button ===== -->
+                  <button id="email-csv-summary" class="btn btn-primary"><i class="fas fa-envelope"></i> Email CSV Summary</button>
+                  <!-- ===== NEW FEATURE END ===== -->
+                </div>
+              </div>
+
+              <!-- Budget & Alerts -->
+              <div class="card budget-card wide-card">
+                <h3><i class="fas fa-bullseye"></i> Budget & Alerts</h3>
+                <form id="budget-form" novalidate>
+                  <div class="input-group">
+                    <i class="fas fa-calendar-alt icon"></i>
+                    <input type="number" id="monthly-budget" placeholder="Monthly budget amount" min="0" />
+                  </div>
+                  <div class="budget-actions">
+                    <button type="submit" class="btn btn-primary">Save Budget</button>
+                    <button id="check-alerts" class="btn btn-secondary" type="button">Check Alerts</button>
+                  </div>
+                  <ul id="alerts-list" class="alerts-list"></ul>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Other Views (unchanged) -->
+          <div id="expenses-view" class="content-view hidden">
+            <h2 class="view-title"><i class="fas fa-list-alt"></i> Detailed Expenses</h2>
+            <div class="card">
+              <ul id="expense-transaction-list" class="detailed-list">
+                <li class="text-center loading-placeholder">Expense list goes here...</li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="income-view" class="content-view hidden">
+            <h2 class="view-title"><i class="fas fa-list-alt"></i> Detailed Income</h2>
+            <div class="card">
+              <ul id="income-transaction-list" class="detailed-list">
+                <li class="text-center loading-placeholder">Income list goes here...</li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="charts-view" class="content-view hidden">
+            <h2 class="view-title"><i class="fas fa-chart-area"></i> Analytics & Reports</h2>
+            <div class="dashboard-grid charts-grid">
+              <div class="card">
+                <h3><i class="fas fa-chart-line"></i> Monthly Income vs. Expenses</h3>
+                <canvas id="monthlyChart" height="150"></canvas>
+              </div>
+              <div class="card">
+                <h3><i class="fas fa-chart-pie"></i> Expense Distribution by Category</h3>
+                <canvas id="categoryPieChart" height="150"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div id="settings-view" class="content-view hidden">
+            <h2 class="view-title"><i class="fas fa-cog"></i> User Settings & Preferences</h2>
+            <div class="card">
+              <div class="settings-group">
+                <h3><i class="fas fa-envelope"></i> Notification Settings</h3>
+                <p>Configure how you receive alerts.</p>
+                <div class="input-group toggle-input-group">
+                  <i class="fas fa-toggle-on icon"></i>
+                  <label for="email-alerts" style="flex:1;">Email Alerts</label>
+                  <input type="checkbox" id="email-alerts" checked />
+                </div>
+              </div>
+              <div class="settings-group">
+                <h3><i class="fas fa-language"></i> Localization</h3>
+                <div class="input-group currency-input-group">
+                  <i class="fas fa-globe icon"></i>
+                  <select id="currency-setting">
+                    <option value="INR">₹ (Indian Rupee)</option>
+                    <option value="USD">$ (US Dollar)</option>
+                    <option value="EUR">€ (Euro)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+  </div>
+
+    <!-- ✅ Change Profile Modal -->
+<div id="change-photo-modal" class="hidden">
+  <h3>Change Profile Picture</h3>
+  <img id="preview-photo" src="default-avatar.png" alt="Preview">
+  <input type="file" id="photo-input" accept="image/*">
+  <div class="modal-actions">
+    <button id="save-photo" class="btn btn-primary">Save</button>
+    <button id="cancel-photo" class="btn btn-secondary">Cancel</button>
+  </div>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

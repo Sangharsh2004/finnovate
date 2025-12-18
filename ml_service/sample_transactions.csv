@@ -1,0 +1,11 @@
+description,category,amount,type
+"grocery at bigmart","Groceries",1200,expense
+"salary september","Salary",50000,income
+"uber ride to office","Transport",150,expense
+"monthly rent","Rent",8000,expense
+"electricity bill","Utilities",2300,expense
+"movie tickets","Entertainment",600,expense
+"freelance project payment","Freelance",8000,income
+"coffee at cafe","Food & Drinks",120,expense
+"paid tuition fees","Education",15000,expense
+"mobile recharge","Utilities",299,expense

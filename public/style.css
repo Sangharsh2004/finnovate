@@ -1,0 +1,463 @@
+/* ===========================
+   Modern & Stylish CSS Theme
+   =========================== */
+
+:root {
+  --primary: #3498db;
+  --primary-dark: #1e6bb8;
+  --accent: #9b59b6;
+  --success: #2ecc71;
+  --danger: #e74c3c;
+  --bg: #f4f7f9;
+  --text: #2c3e50;
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Dark mode theme */
+:root[data-theme="dark"] ::-webkit-scrollbar-track {
+  --bg: #2c2c2c;
+  --text: #ecf0f1;
+  --card-bg: rgba(25, 25, 25, 0.6);
+  --shadow: 0 4px 20px rgba(255, 255, 255, 0.06);
+}
+
+/* ===========================
+   Base Styles
+   =========================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background 0.4s ease, color 0.4s ease;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #dfe6e9;
+}
+
+/* ===========================
+   Header
+   =========================== */
+.app-header {
+  text-align: center;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.app-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.app-tagline {
+  margin-top: 8px;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* ===========================
+   Containers
+   =========================== */
+.container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ===========================
+   Card & Form Design
+   =========================== */
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: fadeIn 0.6s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-container {
+  max-width: 420px;
+  margin: 20px auto;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid #e6eaf0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+.input-group:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+.input-group .icon {
+  color: #95a5a6;
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+.input-group input,
+.input-group select {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 1rem;
+  background: transparent;
+  color: var(--text);
+}
+
+/* ===========================
+   Buttons
+   =========================== */
+.btn {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-secondary {
+  background: #ecf0f1;
+  color: var(--text);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* Toggle link and small notes */
+.toggle-link, .note-text {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #7f8c8d;
+  margin-top: 10px;
+}
+.link-button {
+  color: var(--primary);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* ===========================
+   Dashboard Layout
+   =========================== */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-bottom: 1px solid #e6eaf0;
+  padding-bottom: 10px;
+}
+
+.dashboard-nav-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.summary-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.metric {
+  background: linear-gradient(135deg, #ecf5ff, #ffffff);
+  padding: 16px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.metric h4 {
+  color: var(--primary-dark);
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+.metric p {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* Transaction list */
+#transaction-list {
+  list-style: none;
+  padding: 0;
+  max-height: 340px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+#transaction-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 6px;
+  border-bottom: 1px solid #f0f2f5;
+  font-size: 0.95rem;
+}
+.transaction-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.transaction-amount {
+  font-weight: 700;
+}
+.income-amount {
+  color: var(--success);
+}
+.expense-amount {
+  color: var(--danger);
+}
+
+/* ===========================
+   Forgot & Reset Password UI
+   =========================== */
+.forgot-container,
+.reset-container {
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 25px;
+  max-width: 420px;
+  margin: 25px auto;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.forgot-container h2,
+.reset-container h2 {
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+}
+.forgot-container p,
+.reset-container p {
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+}
+.forgot-container input,
+.reset-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border: 1px solid #e6eaf0;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.forgot-container .btn,
+.reset-container .btn {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* Email CSV Summary Button */
+#email-csv-summary {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+#email-csv-summary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+}
+
+/* ===========================
+   Responsive Design
+   =========================== */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .summary-metrics {
+    grid-template-columns: 1fr;
+  }
+  .wide-card {
+    grid-column: span 1;
+  }
+  .app-title {
+    font-size: 1.8rem;
+  }
+}
+
+
+/* ==================== Profile Dropdown ==================== */
+.profile-dropdown-wrapper {
+  position: relative;
+}
+
+.profile-btn img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.3s ease;
+}
+
+.profile-btn img:hover {
+  transform: scale(1.08);
+  border-color: var(--primary);
+}
+
+.profile-menu {
+  position: absolute;
+  right: 0;
+  top: 75px;
+  width: 330px;              /* ⬅️ WIDTH INCREASED */
+  background: #fff;
+  border-radius: 16px;       /* ⬅️ BETTER SHAPE */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  z-index: 999;
+  padding: 15px;             /* ⬅️ MORE SPACE */
+  animation: fadeIn 0.25s ease;
+}
+
+.profile-menu.hidden {
+  display: none;
+}
+
+.profile-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.profile-menu-header img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+}
+
+.profile-menu h4 {
+  font-size: 1.1rem;
+  color: var(--primary-dark);
+  margin: 0;
+}
+
+.profile-menu p {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin: 3px 0 0;
+}
+
+.profile-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.profile-menu button:hover {
+  background: #f4f6f8;
+}
+
+.profile-menu button.danger {
+  color: #e74c3c;
+}
+
+.profile-menu button.danger:hover {
+  background: #ffeaea;
+}
+/* Increase width of Detailed Expenses card */
+#expenses-view .card,
+#income-view .card {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+}
+
+.charts-grid {
+  grid-template-columns: 1fr !important; /* make charts full width */
+}
+#charts-view .card {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
