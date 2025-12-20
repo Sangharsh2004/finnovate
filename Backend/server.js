@@ -26,6 +26,7 @@ const crypto = require('crypto');
 const validator = require('validator');
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
 const DBFILE = path.join(__dirname, 'data.sqlite');
 if (!process.env.JWT_SECRET) {
