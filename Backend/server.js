@@ -36,16 +36,19 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const SALT_ROUNDS = Number(process.env.SALT_ROUNDS || 10);
 const ML_SERVICE = process.env.ML_SERVICE || 'http://localhost:5000';
+
 const EMAIL_FROM = process.env.EMAIL_FROM || 'no-reply@datapulse.local';
+
 const EMAIL_TRANSPORTER = {
-  host: process.env.SMTP_HOST || '',
-  port: Number(process.env.SMTP_PORT || 587),
-  secure: process.env.SMTP_SECURE === 'true' || false,
-  auth: process.env.SMTP_USER ? {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
+  host: process.env.EMAIL_HOST || '',
+  port: Number(process.env.EMAIL_PORT || 587),
+  secure: String(process.env.EMAIL_SECURE) === 'true',
+  auth: process.env.EMAIL_USER ? {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   } : undefined
 };
+
 const OTP_TTL_MINUTES = Number(process.env.OTP_TTL_MINUTES || 10);
 const EXPORTS_DIR = path.join(__dirname, 'exports');
 if (!fs.existsSync(EXPORTS_DIR)) fs.mkdirSync(EXPORTS_DIR, { recursive: true });
