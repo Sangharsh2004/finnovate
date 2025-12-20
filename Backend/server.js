@@ -60,25 +60,41 @@ app.use(cors({
 }));
 
 
-// create nodemailer transporter (if configured)
+// create nodemailer transporter (Render + Brevo safe)
 let mailer = null;
-if (EMAIL_TRANSPORTER.host && EMAIL_TRANSPORTER.auth && EMAIL_TRANSPORTER.auth.user) {
+
+if (
+  process.env.EMAIL_HOST &&
+  process.env.EMAIL_PORT &&
+  process.env.EMAIL_USER &&
+  process.env.EMAIL_PASS
+) {
   try {
-    mailer = nodemailer.createTransport(EMAIL_TRANSPORTER);
-    // verify transporter safely (async)
-    mailer.verify().then(() => {
-      console.log('✅ Email transporter ready.');
-    }).catch(err => {
-      console.warn('⚠️ Email transporter verification failed:', err && err.message ? err.message : err);
-      mailer = null; // disable mailing if invalid
+    mailer = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: Number(process.env.EMAIL_PORT),
+      secure: false, // Brevo uses STARTTLS on 587
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
     });
+
+    console.log("📧 Mailer initialized (verification skipped)");
+
   } catch (e) {
-    console.warn('⚠️ Mailer setup failed:', e && e.message ? e.message : e);
+    console.warn(
+      "⚠️ Mailer setup failed:",
+      e && e.message ? e.message : e
+    );
     mailer = null;
   }
 } else {
-  console.warn('⚠️ Email transporter not configured. OTP/email will not be sent until SMTP env vars provided.');
+  console.warn(
+    "⚠️ Email transporter not configured. EMAIL_* env vars missing."
+  );
 }
+
 
 // middlewares
 app.use(helmet());
