@@ -31,8 +31,6 @@ const PORT = process.env.PORT || 3000;
 const DBFILE = path.join(__dirname, 'data.sqlite');
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_dev_secret";
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
 const SALT_ROUNDS = Number(process.env.SALT_ROUNDS || 10);
 const ML_SERVICE = process.env.ML_SERVICE || 'http://localhost:5000';
 
