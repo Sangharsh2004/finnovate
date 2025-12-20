@@ -21,6 +21,7 @@ const AbortController = global.AbortController || (() => {
 })();
 const nodeCron = require('node-cron');
 const { createObjectCsvWriter } = require('csv-writer');
+const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const validator = require('validator');
 
@@ -28,9 +29,8 @@ const app = express();
 app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
 const DBFILE = path.join(__dirname, 'data.sqlite');
-if (!process.env.JWT_SECRET) {
-  throw new Error("JWT_SECRET is required in .env");
-}
+const JWT_SECRET = process.env.JWT_SECRET || "fallback_dev_secret";
+
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const SALT_ROUNDS = Number(process.env.SALT_ROUNDS || 10);
@@ -38,6 +38,15 @@ const ML_SERVICE = process.env.ML_SERVICE || 'http://localhost:5000';
 
 const EMAIL_FROM = process.env.EMAIL_FROM || 'no-reply@datapulse.local';
 
+const EMAIL_TRANSPORTER = {
+  host: process.env.EMAIL_HOST || '',
+  port: Number(process.env.EMAIL_PORT || 587),
+  secure: String(process.env.EMAIL_SECURE) === 'true',
+  auth: process.env.EMAIL_USER ? {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  } : undefined
+};
 
 const OTP_TTL_MINUTES = Number(process.env.OTP_TTL_MINUTES || 10);
 const EXPORTS_DIR = path.join(__dirname, 'exports');
@@ -51,6 +60,42 @@ app.use(cors({
   origin: ALLOWED_ORIGIN,
   credentials: true
 }));
+
+
+// create nodemailer transporter (Render + Brevo safe)
+let mailer = null;
+
+if (
+  process.env.EMAIL_HOST &&
+  process.env.EMAIL_PORT &&
+  process.env.EMAIL_USER &&
+  process.env.EMAIL_PASS
+) {
+  try {
+    mailer = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: Number(process.env.EMAIL_PORT),
+      secure: false, // Brevo uses STARTTLS on 587
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+
+    console.log("📧 Mailer initialized (verification skipped)");
+
+  } catch (e) {
+    console.warn(
+      "⚠️ Mailer setup failed:",
+      e && e.message ? e.message : e
+    );
+    mailer = null;
+  }
+} else {
+  console.warn(
+    "⚠️ Email transporter not configured. EMAIL_* env vars missing."
+  );
+}
 
 
 // middlewares
@@ -187,34 +232,7 @@ function generateOtp(len = 6) {
 }
 
 // Utility: send email (best-effort)
-async function sendEmail({ to, subject, html, text }) {
-  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "api-key": process.env.BREVO_API_KEY
-    },
-    body: JSON.stringify({
-      sender: {
-        name: "DataPulse",
-        email: "datapulse.alert@gmail.com"
-      },
-      to: [{ email: to }],
-      subject,
-      htmlContent: html,
-      textContent: text || ""
-    })
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    console.error("Brevo API error:", err);
-    return { success: false };
-  }
-
-  return { success: true };
-}
-
+async function sendEmail({ to, subject, text, html, attachments = [] }) {
   if (!mailer) {
     console.warn('Mailer not configured. Skipping email to', to);
     return { success: false, message: 'Mailer not configured' };
